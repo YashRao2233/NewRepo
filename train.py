@@ -10,7 +10,7 @@ import os
 # Set MLflow experiment
 mlflow.set_experiment("Iris_Classification")
 
-# Load data
+# Load data - relative path only
 df = pd.read_csv("data/iris.csv")
 X = df.drop("target", axis=1)
 y = df["target"]
@@ -24,7 +24,7 @@ models = {
     "GradientBoosting": GradientBoostingClassifier(n_estimators=100, random_state=42)
 }
 
-# Make sure models folder exists (relative path)
+# Ensure models directory exists - relative path
 os.makedirs("models", exist_ok=True)
 
 best_model_name = None
@@ -41,23 +41,23 @@ for model_name, model in models.items():
         mlflow.log_param("model_name", model_name)
         mlflow.log_metric("accuracy", acc)
 
-        # Save model locally with relative path
-        model_path = f"models/{model_name}.pkl"
+        # Save model locally
+        model_path = os.path.join("models", f"{model_name}.pkl")
         joblib.dump(model, model_path)
 
-        # Log artifact (model file)
+        # Log model file as artifact
         mlflow.log_artifact(model_path)
 
-        # Log MLflow model
+        # Log MLflow model (for deployment, etc.)
         mlflow.sklearn.log_model(model, artifact_path="model")
 
-        # Track best model for registration
+        # Track best model
         if acc > best_model_score:
             best_model_score = acc
             best_model_name = model_name
             best_model_uri = f"runs:/{run.info.run_id}/model"
 
-# Register best model in MLflow registry (optional)
+# Register the best model (optional)
 if best_model_uri:
     result = mlflow.register_model(
         model_uri=best_model_uri,

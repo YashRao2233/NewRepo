@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import mlflow
 import mlflow.sklearn
@@ -6,27 +5,27 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.metrics import accuracy_score
 import joblib
+import os
 
-# Set experiment name
+# Set MLflow experiment
 mlflow.set_experiment("Iris_Classification")
 
-# Load data (use relative path)
-data_path = os.path.join("data", "iris.csv")
-df = pd.read_csv(data_path)
-
+# Load data
+df = pd.read_csv("data/iris.csv")
 X = df.drop("target", axis=1)
 y = df["target"]
 
+# Train/test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
+# Define models
 models = {
     "RandomForest": RandomForestClassifier(n_estimators=100, random_state=42),
     "GradientBoosting": GradientBoostingClassifier(n_estimators=100, random_state=42)
 }
 
-# Ensure models directory exists
-models_dir = "models"
-os.makedirs(models_dir, exist_ok=True)
+# Make sure models folder exists (relative path)
+os.makedirs("models", exist_ok=True)
 
 best_model_name = None
 best_model_score = 0.0
@@ -38,27 +37,27 @@ for model_name, model in models.items():
         preds = model.predict(X_test)
         acc = accuracy_score(y_test, preds)
 
+        # Log params and metrics
         mlflow.log_param("model_name", model_name)
         mlflow.log_metric("accuracy", acc)
 
-        # Save model locally in relative path
-        model_filename = f"{model_name}.pkl"
-        model_path = os.path.join(models_dir, model_filename)
+        # Save model locally with relative path
+        model_path = f"models/{model_name}.pkl"
         joblib.dump(model, model_path)
 
-        # Log artifact with relative path
-        mlflow.log_artifact(model_path, artifact_path="models")
+        # Log artifact (model file)
+        mlflow.log_artifact(model_path)
 
-        # Log model to MLflow model registry format
+        # Log MLflow model
         mlflow.sklearn.log_model(model, artifact_path="model")
 
-        # Track best model
+        # Track best model for registration
         if acc > best_model_score:
             best_model_score = acc
             best_model_name = model_name
             best_model_uri = f"runs:/{run.info.run_id}/model"
 
-# Register best model (optional)
+# Register best model in MLflow registry (optional)
 if best_model_uri:
     result = mlflow.register_model(
         model_uri=best_model_uri,

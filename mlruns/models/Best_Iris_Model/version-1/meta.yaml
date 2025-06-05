@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1749108816911
+current_stage: None
+description: null
+last_updated_timestamp: 1749108816911
+name: Best_Iris_Model
+run_id: 2de0c690fa9e4b80bc92066cb0ef8fd2
+run_link: null
+source: file:///C:/Users/Yash%20Rao/Desktop/Mlopsproject/mlruns/376901995131396510/2de0c690fa9e4b80bc92066cb0ef8fd2/artifacts/model
+status: READY
+status_message: null
+storage_location: file:///C:/Users/Yash%20Rao/Desktop/Mlopsproject/mlruns/376901995131396510/2de0c690fa9e4b80bc92066cb0ef8fd2/artifacts/model
+user_id: null
+version: 1

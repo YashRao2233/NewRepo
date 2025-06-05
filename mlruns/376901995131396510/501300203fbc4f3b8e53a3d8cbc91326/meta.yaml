@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Yash%20Rao/Desktop/Mlopsproject/mlruns/376901995131396510/501300203fbc4f3b8e53a3d8cbc91326/artifacts
+deleted_time: 1749109234194
+end_time: 1749109007622
+entry_point_name: ''
+experiment_id: '376901995131396510'
+lifecycle_stage: deleted
+run_id: 501300203fbc4f3b8e53a3d8cbc91326
+run_name: RandomForest
+run_uuid: 501300203fbc4f3b8e53a3d8cbc91326
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749109000538
+status: 3
+tags: []
+user_id: Yash Rao

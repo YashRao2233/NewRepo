@@ -1,0 +1,16 @@
+artifact_uri: file:///C:/Users/Yash%20Rao/Desktop/Mlopsproject/mlruns/376901995131396510/20796e77049b4d428492623a31330d45/artifacts
+deleted_time: 1749109234194
+end_time: 1749109154965
+entry_point_name: ''
+experiment_id: '376901995131396510'
+lifecycle_stage: deleted
+run_id: 20796e77049b4d428492623a31330d45
+run_name: GradientBoosting
+run_uuid: 20796e77049b4d428492623a31330d45
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1749109148810
+status: 3
+tags: []
+user_id: Yash Rao

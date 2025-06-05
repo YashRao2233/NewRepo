@@ -7,34 +7,32 @@ on:
 jobs:
   train-model:
     runs-on: ubuntu-latest
-    # ADD THIS CONTAINER FOR CLEAN ENVIRONMENT
-    container: docker://dvcorg/cml-py3:latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-        # CLEARLY RESET ALL WINDOWS STATE
+        uses: actions/checkout@v4  # Updated to v4
         with:
           clean: true
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           
+      - name: Clean workspace
+        run: |
+          rm -rf mlruns
+          rm -rf models
+          mkdir -p mlruns
+          
       - name: Run training
-        # ADD LINUX-SPECIFIC ENV VARS
         env:
           GIT_PYTHON_REFRESH: quiet
           MLFLOW_TRACKING_URI: file:./mlruns
-          CI: true  # Force MLflow to disable interactive features
-        run: |
-          # CREATE CLEAN WORKSPACE
-          rm -rf mlruns
-          rm -rf models
-          python train.py
+          CI: true
+        run: python train.py
